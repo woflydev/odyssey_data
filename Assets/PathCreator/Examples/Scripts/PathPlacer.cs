@@ -8,8 +8,18 @@ namespace PathCreation.Examples {
 
         public GameObject prefab;
         public GameObject holder;
-        public float spacing = 3;
-        public float minSpacing = .1f;
+        
+        [Range(0.000f, 1.000f)]
+        public float seed;
+        
+        [Range(0.0f, 3.0f)]
+        public float maxSpacing = 3f;
+        
+        private float minSpacing = .1f;
+        public float xOffset = 2f;
+        public float zOffset = 1f;
+        public float xRotOffset = 45f;
+        public float zRotOffset = 45f;
 
         void Generate () {
             if (pathCreator != null && prefab != null && holder != null) {
@@ -17,14 +27,22 @@ namespace PathCreation.Examples {
 
                 VertexPath path = pathCreator.path;
 
-                spacing = Mathf.Max(minSpacing, spacing);
+                maxSpacing = Mathf.Max(minSpacing, maxSpacing);
                 float dst = 0;
 
                 while (dst < path.length) {
-                    Vector3 point = path.GetPointAtDistance (dst);
-                    Quaternion rot = path.GetRotationAtDistance (dst);
+                    Vector3 point = path.GetPointAtDistance(dst);
+
+                    point.x += Random.Range(-xOffset, xOffset) * seed;
+                    point.z += Random.Range(-zOffset, zOffset) * seed;
+                    
+                    Quaternion rot = path.GetRotationAtDistance(dst);
+                    
+                    rot.x += Random.Range(-xRotOffset, xRotOffset) * seed;
+                    rot.z += Random.Range(-zRotOffset, zRotOffset) * seed;
+                    
                     Instantiate (prefab, point, rot, holder.transform);
-                    dst += spacing;
+                    dst += Random.Range(minSpacing, maxSpacing);
                 }
             }
         }
