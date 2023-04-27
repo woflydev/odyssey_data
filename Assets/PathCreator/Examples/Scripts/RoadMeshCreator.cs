@@ -129,15 +129,19 @@ namespace PathCreation.Examples {
             meshHolder.transform.position = Vector3.zero;
             meshHolder.transform.localScale = Vector3.one;
 
-            // Ensure mesh renderer and filter components are assigned
-            if (!meshHolder.gameObject.GetComponent<MeshFilter> ()) {
+            // Ensure mesh renderer, filter, and collider components are assigned
+            if (!meshHolder.gameObject.GetComponent<MeshFilter> ()) 
+            {
                 meshHolder.gameObject.AddComponent<MeshFilter> ();
             }
-            if (!meshHolder.GetComponent<MeshRenderer> ()) {
+            if (!meshHolder.GetComponent<MeshRenderer>()) 
+            {
                 meshHolder.gameObject.AddComponent<MeshRenderer> ();
             }
-
-            meshHolder.gameObject.AddComponent<MeshCollider>();
+            if (!meshHolder.GetComponent<MeshCollider>())
+            {
+                meshHolder.gameObject.AddComponent<MeshCollider>();
+            }
 
             meshRenderer = meshHolder.GetComponent<MeshRenderer> ();
             meshFilter = meshHolder.GetComponent<MeshFilter> ();
