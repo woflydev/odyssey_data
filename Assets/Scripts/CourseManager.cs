@@ -2,11 +2,17 @@ using System;
 using UnityEngine;
 using System.Linq;
 using Unity.VisualScripting;
+using Random = UnityEngine.Random;
 
 public class CourseManager : MonoBehaviour
 {
     public bool gizmo;
     public Parameters p;
+
+    [SerializeField]
+    private bool generateOnStart = true;
+    public int xbounds;
+    public int zbounds;
 
     public Transform[] coursePoints;
     
@@ -21,6 +27,14 @@ public class CourseManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if (generateOnStart)
+        {
+            foreach (var point in coursePoints)
+            {
+                point.position = new Vector3(Random.Range(-xbounds, xbounds), point.position.y,Random.Range(-zbounds, zbounds));
+            }
+        }
+        
         p.coursePositions = coursePoints.Select(a => a.localPosition).ToArray();
         
         Mesh[] meshes = ReturnMeshes();

@@ -29,6 +29,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 417744}
   m_RootOrder: 0
@@ -45,9 +46,10 @@ Camera:
   m_ClearFlags: 1
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0.019607844}
   m_projectionMatrixMode: 1
+  m_GateFitMode: 2
+  m_FOVAxisMode: 0
   m_SensorSize: {x: 36, y: 24}
   m_LensShift: {x: 0, y: 0}
-  m_GateFitMode: 2
   m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
@@ -118,6 +120,7 @@ Transform:
   m_LocalRotation: {x: -0.042385604, y: -0.94231206, z: 0.13087067, w: -0.30516273}
   m_LocalPosition: {x: -2.9181025, y: 1.7511439, z: 7.629786}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 486938}
   m_Father: {fileID: 0}
@@ -137,12 +140,40 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mode: 1
   target: {fileID: 0}
-  changeCameraKey: 99
-  customCameraIndex: 0
+  changeCameraKey: 0
+  customCameraIndex: 1
   timeMode: 1
-  attachTo:
+  driverCameraFov: 75
+  driver:
     hotKey: 282
     attachTarget: {fileID: 0}
+    enableRotation: 0
+    resetRotationOnEnable: 0
+    requireKeyPressedToRotate: 0
+    keyToRequire: 324
+    lookAtTarget: {fileID: 0}
+    horizontal:
+      angle: 0
+      mode: 1
+      targetOffset: 0
+      damped: 1
+      damping: 4
+      clamped: 1
+      minAngle: -90
+      maxAngle: 90
+    vertical:
+      angle: 0
+      mode: 1
+      targetOffset: 0
+      damped: 1
+      damping: 4
+      clamped: 1
+      minAngle: -60
+      maxAngle: 60
+    horizontalAxis: Mouse X
+    verticalAxis: Mouse Y
+    horizontalSensitivity: 4
+    verticalSensitivity: 4
   smoothFollow:
     hotKey: 283
     distance: 10
@@ -164,6 +195,8 @@ MonoBehaviour:
     maxDistance: 50
     distanceSpeed: 10
     distanceDamping: 4
+    requireKeyPressed: 0
+    requiredKey: 324
     horizontalAxis: Mouse X
     verticalAxis: Mouse Y
     distanceAxis: Mouse ScrollWheel

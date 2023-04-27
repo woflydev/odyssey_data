@@ -759,7 +759,7 @@ MonoBehaviour:
     lockRpm: 2500
     lockRatioBias: 0.1
   gearbox:
-    type: 0
+    type: 1
     forwardGearRatios:
     - 3.76
     - 2.269

@@ -6160,31 +6160,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 417744, guid: 08bcacdc13ed1d648bde90a28ef6ebc5, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 131.87021
+      value: 129.1
       objectReference: {fileID: 0}
     - target: {fileID: 417744, guid: 08bcacdc13ed1d648bde90a28ef6ebc5, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3.8840706
+      value: 1.95
       objectReference: {fileID: 0}
     - target: {fileID: 417744, guid: 08bcacdc13ed1d648bde90a28ef6ebc5, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -94.406425
+      value: -85.5
       objectReference: {fileID: 0}
     - target: {fileID: 417744, guid: 08bcacdc13ed1d648bde90a28ef6ebc5, type: 3}
       propertyPath: m_LocalRotation.w
-      value: -0.9535579
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 417744, guid: 08bcacdc13ed1d648bde90a28ef6ebc5, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.13827099
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 417744, guid: 08bcacdc13ed1d648bde90a28ef6ebc5, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.26482815
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 417744, guid: 08bcacdc13ed1d648bde90a28ef6ebc5, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.03840062
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 417744, guid: 08bcacdc13ed1d648bde90a28ef6ebc5, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -6203,9 +6203,17 @@ PrefabInstance:
       value: 75
       objectReference: {fileID: 0}
     - target: {fileID: 11499500, guid: 08bcacdc13ed1d648bde90a28ef6ebc5, type: 3}
+      propertyPath: mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11499500, guid: 08bcacdc13ed1d648bde90a28ef6ebc5, type: 3}
       propertyPath: target
       value: 
       objectReference: {fileID: 1942959889}
+    - target: {fileID: 11499500, guid: 08bcacdc13ed1d648bde90a28ef6ebc5, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 11499500, guid: 08bcacdc13ed1d648bde90a28ef6ebc5, type: 3}
       propertyPath: lookAt.damping
       value: 12
