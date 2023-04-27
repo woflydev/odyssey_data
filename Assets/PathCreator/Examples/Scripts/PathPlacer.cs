@@ -9,8 +9,7 @@ namespace PathCreation.Examples {
         public GameObject prefab;
         public GameObject holder;
         public float spacing = 3;
-
-        const float minSpacing = .1f;
+        public float minSpacing = .1f;
 
         void Generate () {
             if (pathCreator != null && prefab != null && holder != null) {

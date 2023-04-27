@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using PathCreation.Utility;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace PathCreation.Examples {
@@ -135,6 +136,8 @@ namespace PathCreation.Examples {
             if (!meshHolder.GetComponent<MeshRenderer> ()) {
                 meshHolder.gameObject.AddComponent<MeshRenderer> ();
             }
+
+            meshHolder.gameObject.AddComponent<MeshCollider>();
 
             meshRenderer = meshHolder.GetComponent<MeshRenderer> ();
             meshFilter = meshHolder.GetComponent<MeshFilter> ();
