@@ -1,2 +1,2 @@
 # odyssey_data
-Simulated environment to obtain driving data for in Unity3D.
+Simulated environment to obtain driving data for Project Odyssey in Unity3D.
