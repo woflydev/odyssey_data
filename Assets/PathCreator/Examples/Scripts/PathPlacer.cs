@@ -12,7 +12,7 @@ namespace PathCreation.Examples {
         [Range(0.000f, 1.000f)]
         public float seed;
         
-        [Range(0.0f, 3.0f)]
+        [Range(2.0f, 50.0f)]
         public float maxSpacing = 3f;
         
         private float minSpacing = .1f;
@@ -35,13 +35,14 @@ namespace PathCreation.Examples {
 
                     point.x += Random.Range(-xOffset, xOffset) * seed;
                     point.z += Random.Range(-zOffset, zOffset) * seed;
+                    point.y += 1;
                     
                     Quaternion rot = path.GetRotationAtDistance(dst);
                     
                     rot.x += Random.Range(-xRotOffset, xRotOffset) * seed;
                     rot.z += Random.Range(-zRotOffset, zRotOffset) * seed;
                     
-                    Instantiate (prefab, point, rot, holder.transform);
+                    Instantiate(prefab, point, rot, holder.transform);
                     dst += Random.Range(minSpacing, maxSpacing);
                 }
             }
