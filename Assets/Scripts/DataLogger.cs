@@ -7,13 +7,17 @@ public class DataLogger : MonoBehaviour
 {
     [Range(0.01f, 30f)]
     public float logFrequency;
+    public bool logOnAwake = true;
 
     private bool isRunning;
     
     private void Start()
     {
-        StartCoroutine(LogData());
-        isRunning = true;
+        if (logOnAwake)
+        {
+            StartCoroutine(LogData());
+            isRunning = true;
+        }
     }
 
     private void Update()
