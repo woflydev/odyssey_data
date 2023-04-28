@@ -138,6 +138,7 @@ namespace PathCreation.Examples {
             {
                 meshHolder.gameObject.AddComponent<MeshRenderer> ();
             }
+
             if (!meshHolder.GetComponent<MeshCollider>())
             {
                 meshHolder.gameObject.AddComponent<MeshCollider>();
