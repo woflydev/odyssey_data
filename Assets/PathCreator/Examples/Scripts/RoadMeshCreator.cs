@@ -112,15 +112,14 @@ namespace PathCreation.Examples {
             mesh.uv = uvs;
             mesh.normals = normals;
             mesh.subMeshCount = 3;
-            mesh.SetTriangles (roadTriangles, 0);
-            mesh.SetTriangles (underRoadTriangles, 1);
-            mesh.SetTriangles (sideOfRoadTriangles, 2);
-            mesh.RecalculateBounds ();
+            mesh.SetTriangles(roadTriangles, 0);
+            mesh.SetTriangles(underRoadTriangles, 1);
+            mesh.SetTriangles(sideOfRoadTriangles, 2);
+            mesh.RecalculateBounds();
         }
 
         // Add MeshRenderer and MeshFilter components to this gameobject if not already attached
-        void AssignMeshComponents () {
-
+        private void AssignMeshComponents () {
             if (meshHolder == null) {
                 meshHolder = new GameObject ("Road Mesh Holder");
             }
@@ -139,15 +138,10 @@ namespace PathCreation.Examples {
                 meshHolder.gameObject.AddComponent<MeshRenderer> ();
             }
 
-            if (!meshHolder.GetComponent<MeshCollider>())
-            {
-                meshHolder.gameObject.AddComponent<MeshCollider>();
-            }
-
             meshRenderer = meshHolder.GetComponent<MeshRenderer> ();
             meshFilter = meshHolder.GetComponent<MeshFilter> ();
             if (mesh == null) {
-                mesh = new Mesh ();
+                mesh = new Mesh();
             }
             meshFilter.sharedMesh = mesh;
         }
