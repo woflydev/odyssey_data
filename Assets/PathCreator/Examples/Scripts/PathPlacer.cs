@@ -8,6 +8,8 @@ namespace PathCreation.Examples {
 
         public GameObject prefab;
         public GameObject holder;
+
+        public bool spawnObjects;
         
         [Range(0.000f, 1.000f)]
         public float seed;
@@ -21,9 +23,15 @@ namespace PathCreation.Examples {
         public float xRotOffset = 45f;
         public float zRotOffset = 45f;
 
-        void Generate () {
-            if (pathCreator != null && prefab != null && holder != null) {
-                DestroyObjects ();
+        private void Generate () {
+            if (!spawnObjects)
+            {
+                DestroyObjects();
+                Debug.Log("All objects cleared!");
+            }
+            
+            if (pathCreator != null && prefab != null && holder != null && spawnObjects) {
+                DestroyObjects();
 
                 VertexPath path = pathCreator.path;
 
@@ -48,7 +56,7 @@ namespace PathCreation.Examples {
             }
         }
 
-        void DestroyObjects () {
+        private void DestroyObjects () {
             int numChildren = holder.transform.childCount;
             for (int i = numChildren - 1; i >= 0; i--) {
                 DestroyImmediate (holder.transform.GetChild (i).gameObject, false);

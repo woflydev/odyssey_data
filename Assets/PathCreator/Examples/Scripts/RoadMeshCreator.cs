@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using PathCreation.Utility;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -10,12 +12,20 @@ namespace PathCreation.Examples {
         [Range (0, .5f)]
         public float thickness = .15f;
         public bool flattenSurface;
+        public bool maskMode;
 
         [Header ("Material settings")]
         public Material roadMaterial;
+        public Material maskMaterial;
         public Material undersideMaterial;
         public float textureTiling = 1;
 
+        [Header("Floor")] 
+        public GameObject floor;
+        public GameObject maskFloor;
+
+        public PathFollower cam;
+        
         [SerializeField, HideInInspector]
         GameObject meshHolder;
 
@@ -25,13 +35,13 @@ namespace PathCreation.Examples {
 
         protected override void PathUpdated () {
             if (pathCreator != null) {
-                AssignMeshComponents ();
-                AssignMaterials ();
-                CreateRoadMesh ();
+                AssignMeshComponents();
+                AssignMaterials();
+                CreateRoadMesh();
             }
         }
 
-        void CreateRoadMesh () {
+        private void CreateRoadMesh () {
             Vector3[] verts = new Vector3[path.NumPoints * 8];
             Vector2[] uvs = new Vector2[verts.Length];
             Vector3[] normals = new Vector3[verts.Length];
@@ -146,12 +156,40 @@ namespace PathCreation.Examples {
             meshFilter.sharedMesh = mesh;
         }
 
-        void AssignMaterials () {
+        public void CaptureData(int currentFrame)
+        {
+            cam.isCapturing = true;
+            
+            maskMode = false;
+            AssignMeshComponents();
+            AssignMaterials();
+            ScreenCapture.CaptureScreenshot("Assets/Data/frame-" + currentFrame + "-" + System.DateTime.Now.ToString("HH-mm-ss") + ".png", 1);
+
+            currentFrame++;
+            
+            maskMode = true;
+            AssignMeshComponents();
+            AssignMaterials();
+            ScreenCapture.CaptureScreenshot("Assets/Data/frame-" + currentFrame + "-" + System.DateTime.Now.ToString("HH-mm-ss") + "mask" + ".png", 1);
+
+            cam.isCapturing = false;
+        }
+        
+        private void AssignMaterials () 
+        {
+            Debug.Log(maskMode);
+            ToggleFloor(maskMode);
+            
             if (roadMaterial != null && undersideMaterial != null) {
-                meshRenderer.sharedMaterials = new Material[] { roadMaterial, undersideMaterial, undersideMaterial };
+                meshRenderer.sharedMaterials = new Material[] { maskMode ? maskMaterial : roadMaterial, undersideMaterial, undersideMaterial };
                 meshRenderer.sharedMaterials[0].mainTextureScale = new Vector3 (1, textureTiling);
             }
         }
 
+        private void ToggleFloor(bool enabled)
+        {
+            floor.SetActive(!enabled);
+            maskFloor.SetActive(enabled);
+        }
     }
 }

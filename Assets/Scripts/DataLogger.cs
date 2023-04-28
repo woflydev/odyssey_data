@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using PathCreation.Examples;
 using UnityEngine;
 
 public class DataLogger : MonoBehaviour
@@ -8,8 +9,13 @@ public class DataLogger : MonoBehaviour
     [Range(0.01f, 30f)]
     public float logFrequency;
     public bool logOnAwake = true;
+    public bool captureMaskMode = true;
 
+    [Header("Road Mesh Creator Script")]
+    public RoadMeshCreator meshCreator;
+    
     private bool isRunning;
+    private int currentFrame = 1;
     
     private void Start()
     {
@@ -42,9 +48,22 @@ public class DataLogger : MonoBehaviour
 
     private IEnumerator LogData()
     {
+        currentFrame = 1;
+        
         while (enabled)
         {
-            ScreenCapture.CaptureScreenshot("Assets/Data/data-" + System.DateTime.Now.ToString("MM-dd-yy (HH-mm-ss)") + ".png", 1);
+            //ScreenCapture.CaptureScreenshot("Assets/Data/frame-" + currentFrame + "-" + System.DateTime.Now.ToString("HH-mm-ss") + ".png", 1);
+
+            meshCreator.CaptureData(currentFrame);
+
+            /*if (captureMaskMode)
+            {
+                meshCreator.maskMode = true;
+                ScreenCapture.CaptureScreenshot("Assets/Data/frame-" + currentFrame + "-" + System.DateTime.Now.ToString("HH-mm-ss") + "-mask" + ".png", 1);
+            }*/
+
+            currentFrame++;
+            
             yield return new WaitForSeconds(logFrequency);
         }
     }
