@@ -24,8 +24,6 @@ namespace PathCreation.Examples {
         public GameObject floor;
         public GameObject maskFloor;
 
-        public PathFollower cam;
-        
         [SerializeField, HideInInspector]
         GameObject meshHolder;
 
@@ -156,25 +154,6 @@ namespace PathCreation.Examples {
             meshFilter.sharedMesh = mesh;
         }
 
-        public void CaptureData(int currentFrame)
-        {
-            cam.isCapturing = true;
-            
-            maskMode = false;
-            AssignMeshComponents();
-            AssignMaterials();
-            ScreenCapture.CaptureScreenshot("Assets/Data/frame-" + currentFrame + "-" + System.DateTime.Now.ToString("HH-mm-ss") + ".png", 1);
-
-            currentFrame++;
-            
-            maskMode = true;
-            AssignMeshComponents();
-            AssignMaterials();
-            ScreenCapture.CaptureScreenshot("Assets/Data/frame-" + currentFrame + "-" + System.DateTime.Now.ToString("HH-mm-ss") + "mask" + ".png", 1);
-
-            cam.isCapturing = false;
-        }
-        
         private void AssignMaterials () 
         {
             Debug.Log(maskMode);

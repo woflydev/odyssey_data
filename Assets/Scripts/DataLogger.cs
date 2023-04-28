@@ -9,7 +9,6 @@ public class DataLogger : MonoBehaviour
     [Range(0.01f, 30f)]
     public float logFrequency;
     public bool logOnAwake = true;
-    public bool captureMaskMode = true;
 
     [Header("Road Mesh Creator Script")]
     public RoadMeshCreator meshCreator;
@@ -52,10 +51,14 @@ public class DataLogger : MonoBehaviour
         
         while (enabled)
         {
+            meshCreator.maskMode = true;
+            
+            yield return new WaitForSeconds(1);
+
+            meshCreator.maskMode = false;
+            
             //ScreenCapture.CaptureScreenshot("Assets/Data/frame-" + currentFrame + "-" + System.DateTime.Now.ToString("HH-mm-ss") + ".png", 1);
-
-            meshCreator.CaptureData(currentFrame);
-
+            
             /*if (captureMaskMode)
             {
                 meshCreator.maskMode = true;
