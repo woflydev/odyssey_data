@@ -27,7 +27,6 @@ namespace PathCreation.Examples {
             if (!spawnObjects)
             {
                 DestroyObjects();
-                Debug.Log("All objects cleared!");
             }
             
             if (pathCreator != null && prefab != null && holder != null && spawnObjects) {

@@ -9,8 +9,6 @@ namespace PathCreation.Examples
         public float speed = 5;
         float distanceTravelled;
 
-        public bool isCapturing;
-
         private void Start() 
         {
             if (pathCreator != null)
@@ -22,7 +20,7 @@ namespace PathCreation.Examples
 
         private void Update()
         {
-            if (pathCreator != null && !isCapturing)
+            if (pathCreator != null)
             {
                 distanceTravelled += speed * Time.deltaTime;
                 transform.position = pathCreator.path.GetPointAtDistance(distanceTravelled, endOfPathInstruction);

@@ -44,8 +44,10 @@ namespace PathCreation.Examples
         }
 
 
-        void TriggerUpdate() {
-            if (pathTool.pathCreator != null) {
+        void TriggerUpdate() 
+        {
+            if (pathTool.pathCreator != null) 
+            {
                 pathTool.TriggerUpdate();
             }
         }

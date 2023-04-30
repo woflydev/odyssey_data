@@ -1,20 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text.RegularExpressions;
-using PathCreation.Utility;
-using Unity.VisualScripting;
+using System.Collections;
+using Palmmedia.ReportGenerator.Core.Parser.Analysis;
 using UnityEngine;
 
 namespace PathCreation.Examples {
     public class RoadMeshCreator : PathSceneTool {
-        [Header ("Road settings")]
+        [Header ("Road Settings")]
         public float roadWidth = .4f;
         [Range (0, .5f)]
         public float thickness = .15f;
         public bool flattenSurface;
         public bool maskMode;
 
-        [Header ("Material settings")]
+        [Header ("Material Settings")]
         public Material roadMaterial;
         public Material maskMaterial;
         public Material undersideMaterial;
@@ -23,15 +21,19 @@ namespace PathCreation.Examples {
         [Header("Floor")] 
         public GameObject floor;
         public GameObject maskFloor;
-
+        
         [SerializeField, HideInInspector]
-        GameObject meshHolder;
+        public GameObject meshHolder;
+        public GameObject maskHolder;
 
-        MeshFilter meshFilter;
-        MeshRenderer meshRenderer;
-        Mesh mesh;
+        private MeshFilter meshFilter;
+        private MeshFilter maskFilter;
+        private MeshRenderer meshRenderer;
+        private MeshRenderer maskRenderer;
+        private Mesh mesh;
+        private Mesh maskMesh;
 
-        protected override void PathUpdated () {
+        protected override void PathUpdated() {
             if (pathCreator != null) {
                 AssignMeshComponents();
                 AssignMaterials();
@@ -39,7 +41,8 @@ namespace PathCreation.Examples {
             }
         }
 
-        private void CreateRoadMesh () {
+        public void CreateRoadMesh() 
+        {
             Vector3[] verts = new Vector3[path.NumPoints * 8];
             Vector2[] uvs = new Vector2[verts.Length];
             Vector3[] normals = new Vector3[verts.Length];
@@ -115,60 +118,110 @@ namespace PathCreation.Examples {
                 triIndex += 6;
             }
 
-            mesh.Clear ();
+            mesh.Clear();
+            maskMesh.Clear();
+            
             mesh.vertices = verts;
+            maskMesh.vertices = verts;
+            
             mesh.uv = uvs;
+            mesh.uv = uvs;
+            
             mesh.normals = normals;
+            maskMesh.normals = normals;
+            
             mesh.subMeshCount = 3;
+            maskMesh.subMeshCount = 3;
+            
             mesh.SetTriangles(roadTriangles, 0);
             mesh.SetTriangles(underRoadTriangles, 1);
             mesh.SetTriangles(sideOfRoadTriangles, 2);
             mesh.RecalculateBounds();
+            
+            maskMesh.SetTriangles(roadTriangles, 0);
+            maskMesh.SetTriangles(underRoadTriangles, 1);
+            maskMesh.SetTriangles(sideOfRoadTriangles, 2);
+            maskMesh.RecalculateBounds();
         }
 
         // Add MeshRenderer and MeshFilter components to this gameobject if not already attached
-        private void AssignMeshComponents () {
+        public void AssignMeshComponents () 
+        {
             if (meshHolder == null) {
                 meshHolder = new GameObject ("Road Mesh Holder");
+            }
+            
+            if (maskHolder == null) {
+                maskHolder = new GameObject ("Mask Mesh Holder");
             }
 
             meshHolder.transform.rotation = Quaternion.identity;
             meshHolder.transform.position = Vector3.zero;
             meshHolder.transform.localScale = Vector3.one;
+            
+            maskHolder.transform.rotation = Quaternion.identity;
+            maskHolder.transform.position = Vector3.zero;
+            maskHolder.transform.localScale = Vector3.one;
 
-            // Ensure mesh renderer, filter, and collider components are assigned
-            if (!meshHolder.gameObject.GetComponent<MeshFilter> ()) 
+            // Ensure mesh renderer and filter components are assigned
+            if (!meshHolder.gameObject.GetComponent<MeshFilter>()) 
             {
-                meshHolder.gameObject.AddComponent<MeshFilter> ();
+                meshHolder.gameObject.AddComponent<MeshFilter>();
             }
+            
+            if (!maskHolder.gameObject.GetComponent<MeshFilter>()) 
+            {
+                maskHolder.gameObject.AddComponent<MeshFilter>();
+            }
+            
             if (!meshHolder.GetComponent<MeshRenderer>()) 
             {
-                meshHolder.gameObject.AddComponent<MeshRenderer> ();
+                meshHolder.gameObject.AddComponent<MeshRenderer>();
+            }
+            
+            if (!maskHolder.GetComponent<MeshRenderer>()) 
+            {
+                maskHolder.gameObject.AddComponent<MeshRenderer>();
             }
 
-            meshRenderer = meshHolder.GetComponent<MeshRenderer> ();
-            meshFilter = meshHolder.GetComponent<MeshFilter> ();
+            meshRenderer = meshHolder.GetComponent<MeshRenderer>();
+            meshFilter = meshHolder.GetComponent<MeshFilter>();
+
+            maskRenderer = maskHolder.GetComponent<MeshRenderer>();
+            maskFilter = maskHolder.GetComponent<MeshFilter>();
+            
             if (mesh == null) {
                 mesh = new Mesh();
             }
+            
+            if (maskMesh == null) {
+                maskMesh = new Mesh();
+            }
+            
             meshFilter.sharedMesh = mesh;
+            maskFilter.sharedMesh = mesh;
         }
 
-        private void AssignMaterials () 
+
+        public void AssignMaterials() 
         {
-            Debug.Log(maskMode);
-            ToggleFloor(maskMode);
+            floor.SetActive(!maskMode);
+            maskFloor.SetActive(maskMode);
+            
+            meshHolder.SetActive(!maskMode);
+            maskHolder.SetActive(maskMode);
             
             if (roadMaterial != null && undersideMaterial != null) {
-                meshRenderer.sharedMaterials = new Material[] { maskMode ? maskMaterial : roadMaterial, undersideMaterial, undersideMaterial };
+                meshRenderer.sharedMaterials = new Material[] { roadMaterial, undersideMaterial, undersideMaterial };
                 meshRenderer.sharedMaterials[0].mainTextureScale = new Vector3 (1, textureTiling);
+            }
+            
+            if (maskMaterial != null && undersideMaterial != null) {
+                maskRenderer.sharedMaterials = new Material[] { maskMaterial, undersideMaterial, undersideMaterial };
+                maskRenderer.sharedMaterials[0].mainTextureScale = new Vector3 (1, textureTiling);
             }
         }
 
-        private void ToggleFloor(bool enabled)
-        {
-            floor.SetActive(!enabled);
-            maskFloor.SetActive(enabled);
-        }
+        
     }
 }

@@ -51,12 +51,8 @@ public class DataLogger : MonoBehaviour
         
         while (enabled)
         {
-            meshCreator.maskMode = true;
-            
             yield return new WaitForSeconds(1);
 
-            meshCreator.maskMode = false;
-            
             //ScreenCapture.CaptureScreenshot("Assets/Data/frame-" + currentFrame + "-" + System.DateTime.Now.ToString("HH-mm-ss") + ".png", 1);
             
             /*if (captureMaskMode)
