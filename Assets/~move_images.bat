@@ -1,0 +1,1 @@
+xcopy /s /z /y /v "C:\Users\User\Desktop\odyssey_data\Assets\Data\*.png" "C:\Users\User\Desktop\odyssey_img\Data\"
