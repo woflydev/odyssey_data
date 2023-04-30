@@ -8,14 +8,15 @@ public class CaptureData : MonoBehaviour
     [Header("Configuration")]
     [Range(0.01f, 30f)]
     public float logFrequency;
+    public KeyCode logKey = KeyCode.Backspace;
     public bool logOnAwake = true;
-
-    [Header("Floor")] 
-    public GameObject floor;
-    public GameObject maskFloor;
-
+    
     [Header("Dependencies")]
     public RoadMeshCreator meshCreator;
+    public GameObject floor;
+    public GameObject maskFloor;
+    
+    [Header("Debugging")]
     public bool isRunning;
 
     private Coroutine logDataRoutine = null;
@@ -31,7 +32,7 @@ public class CaptureData : MonoBehaviour
     
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Backspace))
+        if (Input.GetKeyDown(logKey))
         {
             if (isRunning)
             {
