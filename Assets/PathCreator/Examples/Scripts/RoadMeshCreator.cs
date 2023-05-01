@@ -4,7 +4,13 @@ using Palmmedia.ReportGenerator.Core.Parser.Analysis;
 using UnityEngine;
 
 namespace PathCreation.Examples {
-    public class RoadMeshCreator : PathSceneTool {
+    public class RoadMeshCreator : PathSceneTool
+    {
+        [Header("Configuration")] 
+        public string holderIndex;
+        [Range(-1.00f, 1.00f)] 
+        public float yOffset;
+        
         [Header ("Road Settings")]
         public float roadWidth = .4f;
         [Range (0, .5f)]
@@ -148,19 +154,19 @@ namespace PathCreation.Examples {
         public void AssignMeshComponents () 
         {
             if (meshHolder == null) {
-                meshHolder = new GameObject ("Road Mesh Holder");
+                meshHolder = new GameObject ("(" + holderIndex + ") Road Mesh Holder");
             }
             
             if (maskHolder == null) {
-                maskHolder = new GameObject ("Mask Mesh Holder");
+                maskHolder = new GameObject ("(" + holderIndex + ") Mask Mesh Holder");
             }
 
             meshHolder.transform.rotation = Quaternion.identity;
-            meshHolder.transform.position = Vector3.zero;
+            meshHolder.transform.position = new Vector3(0, yOffset, 0);
             meshHolder.transform.localScale = Vector3.one;
             
             maskHolder.transform.rotation = Quaternion.identity;
-            maskHolder.transform.position = Vector3.zero;
+            maskHolder.transform.position = new Vector3(0, yOffset, 0);
             maskHolder.transform.localScale = Vector3.one;
 
             // Ensure mesh renderer and filter components are assigned

@@ -1,13 +1,12 @@
 using System;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.Experimental.GlobalIllumination;
 using Random = UnityEngine.Random;
 
-public class LightingManager : MonoBehaviour
+[RequireComponent(typeof(Light), typeof(Renderer))]
+public class EnvironmentManager : MonoBehaviour
 {
-    public Light mainLight;
-
+    [Header("Lighting Configuration")]
     [Range(0.00f, 5.00f)] 
     public float maxBrightness;
     
@@ -17,9 +16,23 @@ public class LightingManager : MonoBehaviour
     public float changeDelay;
     public bool changeLighting;
 
+    [Header("Texture Configuration")] 
+    [Range(-40.00f, 40.00f)]
+    public float scrollSpeed;
+
+    [Header("Dependencies")]
+    public Light mainLight;
+    public Renderer floorRenderer;
+
+
     private void Start()
     {
         StartCoroutine(ChangeLighting());
+    }
+
+    private void Update()
+    {
+        floorRenderer.material.mainTextureOffset = new Vector2(floorRenderer.material.mainTextureOffset.x - scrollSpeed * Time.deltaTime, floorRenderer.material.mainTextureOffset.y);
     }
 
     private IEnumerator ChangeLighting()
