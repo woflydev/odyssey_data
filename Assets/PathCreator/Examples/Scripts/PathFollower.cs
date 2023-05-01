@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Runtime.InteropServices.WindowsRuntime;
+using UnityEngine;
 
 namespace PathCreation.Examples
 {
@@ -7,10 +9,17 @@ namespace PathCreation.Examples
         public PathCreator pathCreator;
         public EndOfPathInstruction endOfPathInstruction;
         public float speed = 5;
+        public float waitTime = 5f;
         float distanceTravelled;
 
-        private void Start() 
+        public bool initialized = false;
+
+        private void Start()
         {
+            initialized = false;
+
+            StartCoroutine(WaitForInitialization());
+            
             if (pathCreator != null)
             {
                 // Subscribed to the pathUpdated event so that we're notified if the path changes during the game
@@ -20,7 +29,7 @@ namespace PathCreation.Examples
 
         private void Update()
         {
-            if (pathCreator != null)
+            if (pathCreator != null && initialized)
             {
                 distanceTravelled += speed * Time.deltaTime;
                 transform.position = pathCreator.path.GetPointAtDistance(distanceTravelled, endOfPathInstruction);
@@ -28,6 +37,12 @@ namespace PathCreation.Examples
             }
         }
 
+        private IEnumerator WaitForInitialization()
+        {
+            yield return new WaitForSeconds(waitTime);
+            initialized = true;
+        }
+        
         // If the path changes during the game, update the distance travelled so that the follower's position on the new path
         // is as close as possible to its position on the old path
         void OnPathChanged() 

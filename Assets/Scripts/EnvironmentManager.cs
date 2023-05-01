@@ -17,7 +17,7 @@ public class EnvironmentManager : MonoBehaviour
     public bool changeLighting;
 
     [Header("Texture Configuration")] 
-    [Range(-40.00f, 40.00f)]
+    [Range(-2.00f, 2.00f)]
     public float scrollSpeed;
 
     [Header("Dependencies")]

@@ -1,16 +1,25 @@
-﻿using PathCreation;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace PathCreation.Examples {
 
     [ExecuteInEditMode]
-    public class PathPlacer : PathSceneTool {
+    [RequireComponent(typeof(RoadMeshCreator))]
+    public class PathPlacer : PathSceneTool
+    {
+        public Color32 normalColour = new Color32(171, 0, 255, 255);
 
         public GameObject prefab;
-        public GameObject holder;
+        public GameObject maskedPrefab;
+        public GameObject objectHolder;
+        public GameObject maskedObjectHolder;
+        
+        public int holderIndex;
 
         public bool spawnObjects;
-        
+
         [Range(0.000f, 1.000f)]
         public float seed;
         
@@ -21,17 +30,21 @@ namespace PathCreation.Examples {
         public float xOffset = 2f;
         public float zOffset = 1f;
         public float xRotOffset = 45f;
+        public float yRotOffset = 45f;
         public float zRotOffset = 45f;
 
-        private void Generate () {
+        private List<GameObject> spawnedObj;
+
+        private void Generate() 
+        {
             if (!spawnObjects)
             {
                 DestroyObjects();
             }
-            
-            if (pathCreator != null && prefab != null && holder != null && spawnObjects) {
-                DestroyObjects();
 
+            if (pathCreator != null && prefab != null && objectHolder != null && spawnObjects) {
+                DestroyObjects();
+                
                 VertexPath path = pathCreator.path;
 
                 maxSpacing = Mathf.Max(minSpacing, maxSpacing);
@@ -42,30 +55,66 @@ namespace PathCreation.Examples {
 
                     point.x += Random.Range(-xOffset, xOffset) * seed;
                     point.z += Random.Range(-zOffset, zOffset) * seed;
-                    point.y += 1;
+                    point.y += 0.8f;
                     
                     Quaternion rot = path.GetRotationAtDistance(dst);
                     
-                    rot.x += Random.Range(-xRotOffset, xRotOffset) * seed;
-                    rot.z += Random.Range(-zRotOffset, zRotOffset) * seed;
-                    
-                    Instantiate(prefab, point, rot, holder.transform);
+                    rot.x += Random.Range(-xRotOffset, xRotOffset);
+                    rot.y += Random.Range(-yRotOffset, yRotOffset);
+                    rot.z += Random.Range(-zRotOffset, zRotOffset);
+
+                    GameObject normal = Instantiate(prefab, point, rot, objectHolder.transform);
+                    GameObject masked = Instantiate(maskedPrefab, point, rot, maskedObjectHolder.transform);
+
+                    //spawnedObj.Add(spawned);
+
                     dst += Random.Range(minSpacing, maxSpacing);
                 }
             }
         }
 
-        private void DestroyObjects () {
-            int numChildren = holder.transform.childCount;
+        private void DestroyObjects() 
+        {
+            int numChildren = objectHolder.transform.childCount;
             for (int i = numChildren - 1; i >= 0; i--) {
-                DestroyImmediate (holder.transform.GetChild (i).gameObject, false);
+                DestroyImmediate(objectHolder.transform.GetChild(i).gameObject, false);
+                DestroyImmediate(maskedObjectHolder.transform.GetChild(i).gameObject, false);
             }
         }
 
-        protected override void PathUpdated () {
+        protected override void PathUpdated()
+        {
             if (pathCreator != null) {
-                Generate ();
+                Generate();
+            }
+            
+            if (objectHolder == null)
+            {
+                objectHolder = new GameObject("(" + holderIndex + ") Object Holder");
+                objectHolder.transform.parent = transform.parent;
+            }
+            
+            if (maskedObjectHolder == null)
+            {
+                maskedObjectHolder = new GameObject("(" + holderIndex + ") Masked Object Holder");
+                maskedObjectHolder.transform.parent = transform.parent;
             }
         }
+        
+        /*public void ChangeObjectColour(bool mask)
+        {
+            foreach (var obj in spawnedObj)
+            {
+                if (mask)
+                {
+                    obj.GetComponentInChildren<Renderer>().sharedMaterial.color = Color.green;
+                }
+
+                else
+                {
+                    obj.GetComponentInChildren<Renderer>().sharedMaterial.color = normalColour;
+                }
+            }
+        }*/
     }
 }

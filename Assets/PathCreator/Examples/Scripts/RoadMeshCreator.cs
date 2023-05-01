@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections;
-using Palmmedia.ReportGenerator.Core.Parser.Analysis;
 using UnityEngine;
 
 namespace PathCreation.Examples {
+    [RequireComponent(typeof(PathPlacer))]
     public class RoadMeshCreator : PathSceneTool
     {
         [Header("Configuration")] 
@@ -38,6 +37,13 @@ namespace PathCreation.Examples {
         private MeshRenderer maskRenderer;
         private Mesh mesh;
         private Mesh maskMesh;
+
+        private PathPlacer pathPlacer;
+
+        private void Start()
+        {
+            pathPlacer = GetComponent<PathPlacer>();
+        }
 
         protected override void PathUpdated() {
             if (pathCreator != null) {
@@ -151,7 +157,7 @@ namespace PathCreation.Examples {
         }
 
         // Add MeshRenderer and MeshFilter components to this gameobject if not already attached
-        public void AssignMeshComponents () 
+        public void AssignMeshComponents() 
         {
             if (meshHolder == null) {
                 meshHolder = new GameObject ("(" + holderIndex + ") Road Mesh Holder");
@@ -209,13 +215,18 @@ namespace PathCreation.Examples {
         }
 
 
-        public void AssignMaterials() 
+        private void AssignMaterials() 
         {
             floor.SetActive(!maskMode);
             maskFloor.SetActive(maskMode);
             
             meshHolder.SetActive(!maskMode);
             maskHolder.SetActive(maskMode);
+            
+            GetComponent<PathPlacer>().objectHolder.SetActive(!maskMode);
+            GetComponent<PathPlacer>().maskedObjectHolder.SetActive(maskMode);
+            
+            //pathPlacer.ChangeObjectColour(maskMode);
             
             if (roadMaterial != null && undersideMaterial != null) {
                 meshRenderer.sharedMaterials = new Material[] { roadMaterial, undersideMaterial, undersideMaterial };

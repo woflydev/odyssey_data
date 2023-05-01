@@ -13,6 +13,7 @@ public class CaptureData : MonoBehaviour
     
     [Header("Dependencies")]
     public RoadMeshCreator meshCreator;
+    public PathPlacer pathPlacer;
     public GameObject floor;
     public GameObject maskFloor;
     
@@ -23,6 +24,8 @@ public class CaptureData : MonoBehaviour
     
     private void Start()
     {
+        StartCoroutine(InitializeLogger());
+        
         if (logOnAwake)
         {
             isRunning = true;
@@ -64,11 +67,25 @@ public class CaptureData : MonoBehaviour
         meshCreator.meshHolder.SetActive(!isMask);
         meshCreator.maskHolder.SetActive(isMask);
         
+        // because we can't access inspector scripts' variables at runtime, we must resort to toggling with parent objects.
+        pathPlacer.objectHolder.SetActive(!isMask);
+        pathPlacer.maskedObjectHolder.SetActive(isMask);
+        
         // this also applies for floor
         floor.SetActive(!isMask);
         maskFloor.SetActive(isMask);
     }
 
+    private IEnumerator InitializeLogger()
+    {
+        ToggleMaskMode(true);
+        Debug.Log("Initializing...");
+        yield return new WaitForSeconds(2);
+        ToggleMaskMode(false);
+        yield return new WaitForSeconds(2);
+        Debug.Log("Initialization complete!");
+    }
+    
     private IEnumerator LogData()
     {
         // local var that restarts every time async job is reset
@@ -83,7 +100,7 @@ public class CaptureData : MonoBehaviour
             yield return this;
             
             ToggleMaskMode(true);
-            
+
             ScreenCapture.CaptureScreenshot("Assets/Data/frame-" + currentFrame + "-" + System.DateTime.Now.ToString("HH-mm-ss") + "-mask" + ".png", 1);
             yield return this;
 
