@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEditor;
 using UnityEngine;
 
 namespace PathCreation.Examples {
@@ -215,13 +216,15 @@ namespace PathCreation.Examples {
         }
 
 
-        private void AssignMaterials() 
+        public void AssignMaterials() 
         {
             floor.SetActive(!maskMode);
             maskFloor.SetActive(maskMode);
             
             meshHolder.SetActive(!maskMode);
             maskHolder.SetActive(maskMode);
+            
+            Debug.Log("change maskmode");
             
             GetComponent<PathPlacer>().objectHolder.SetActive(!maskMode);
             GetComponent<PathPlacer>().maskedObjectHolder.SetActive(maskMode);

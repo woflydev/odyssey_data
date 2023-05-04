@@ -84,9 +84,10 @@ namespace PathCreation {
                 this.points = new List<Vector3> { pointsArray[0], Vector3.zero, Vector3.zero, pointsArray[1] };
                 perAnchorNormalsAngle = new List<float> (new float[] { 0, 0 });
 
-                for (int i = 2; i < pointsArray.Length; i++) {
-                    AddSegmentToEnd (pointsArray[i]);
-                    perAnchorNormalsAngle.Add (0);
+                for (int i = 2; i < pointsArray.Length; i++)
+                {
+                    AddSegmentToEnd(pointsArray[i]);
+                    perAnchorNormalsAngle.Add(0);
                 }
             }
 
@@ -241,9 +242,13 @@ namespace PathCreation {
             Vector3 secondControlForOldLastAnchor = points[lastAnchorIndex] + secondControlForOldLastAnchorOffset;
             Vector3 controlForNewAnchor = (anchorPos + secondControlForOldLastAnchor) * .5f;
 
-            points.Add (secondControlForOldLastAnchor);
-            points.Add (controlForNewAnchor);
-            points.Add (anchorPos);
+            Debug.Log("before: " + anchorPos.y);
+            anchorPos.y += Random.Range(0.001f, 0.0015f);
+            Debug.Log("after: " + anchorPos.y);
+
+            points.Add(secondControlForOldLastAnchor);
+            points.Add(controlForNewAnchor);
+            points.Add(anchorPos);
             perAnchorNormalsAngle.Add (perAnchorNormalsAngle[perAnchorNormalsAngle.Count - 1]);
 
             if (controlMode == ControlMode.Automatic) {

@@ -66,6 +66,9 @@ namespace PathCreation.Examples {
                     GameObject normal = Instantiate(prefab, point, rot, objectHolder.transform);
                     GameObject masked = Instantiate(maskedPrefab, point, rot, maskedObjectHolder.transform);
 
+                    MeshRenderer noShadows = masked.AddComponent<MeshRenderer>();
+                    noShadows.receiveShadows = false;
+                    
                     //spawnedObj.Add(spawned);
 
                     dst += Random.Range(minSpacing, maxSpacing);
