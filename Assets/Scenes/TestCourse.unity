@@ -1109,7 +1109,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 69934704}
-  m_LocalRotation: {x: -0.000000004907863, y: 0.973249, z: -0.22975293, w: -0.00000002079004}
+  m_LocalRotation: {x: 0.0000000035165582, y: 0.973249, z: -0.22975291, w: 0.000000014896379}
   m_LocalPosition: {x: 0.571, y: 1.654, z: 5.611}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -4693,6 +4693,7 @@ MonoBehaviour:
   logFrequency: 0.1
   logKey: 8
   logOnAwake: 0
+  runNum: {fileID: 11400000, guid: f6c00e536deedfb42a729e043d5fe518, type: 2}
   meshCreator: {fileID: 1205779580}
   pathPlacer: {fileID: 1205779581}
   floor: {fileID: 1240990852}
@@ -14721,7 +14722,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 824755297}
-  m_LocalRotation: {x: -0.000000004907863, y: 0.973249, z: -0.22975293, w: -0.00000002079004}
+  m_LocalRotation: {x: 0.0000000035165582, y: 0.973249, z: -0.22975291, w: 0.000000014896379}
   m_LocalPosition: {x: 0.571, y: 1.654, z: 5.611}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0

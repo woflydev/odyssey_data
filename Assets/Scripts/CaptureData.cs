@@ -10,8 +10,9 @@ public class CaptureData : MonoBehaviour
     public float logFrequency;
     public KeyCode logKey = KeyCode.Backspace;
     public bool logOnAwake = true;
-    
-    [Header("Dependencies")]
+
+    [Header("Dependencies")] 
+    public RunNumber runNum;
     public RoadMeshCreator meshCreator;
     public PathPlacer pathPlacer;
     public GameObject floor;
@@ -88,12 +89,14 @@ public class CaptureData : MonoBehaviour
     
     private IEnumerator LogData()
     {
+        runNum.runNumber++;
+        
         // local var that restarts every time async job is reset
         int currentFrame = 1;
         
         while (true)
         {
-            ScreenCapture.CaptureScreenshot("Assets/Data/frame-" + currentFrame + "-" + System.DateTime.Now.ToString("HH-mm-ss") + ".png", 1);
+            ScreenCapture.CaptureScreenshot("Assets/Data/frame-" + currentFrame + "-" + "run-" + runNum.runNumber + ".png", 1);
             
             // WHY.
             // JUST WHY.
@@ -101,7 +104,7 @@ public class CaptureData : MonoBehaviour
             
             ToggleMaskMode(true);
 
-            ScreenCapture.CaptureScreenshot("Assets/Data/frame-" + currentFrame + "-" + System.DateTime.Now.ToString("HH-mm-ss") + "-mask" + ".png", 1);
+            ScreenCapture.CaptureScreenshot("Assets/Data/frame-" + currentFrame + "-" + "run-" + runNum.runNumber + "-mask" + ".png", 1);
             yield return this;
 
             currentFrame++;
