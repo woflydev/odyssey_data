@@ -8,13 +8,13 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Mask
-  m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
-  m_ValidKeywords:
-  - _DETAIL_MULX2
+  m_Shader: {fileID: 4800000, guid: 0a0d2000e94a19a4f8385fe55c702702, type: 3}
+  m_ValidKeywords: []
+  m_InvalidKeywords:
+  - _ALPHAPREMULTIPLY_ON
   - _GLOSSYREFLECTIONS_OFF
   - _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
   - _SPECULARHIGHLIGHTS_OFF
-  m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
@@ -29,7 +29,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DetailAlbedoMap:
-        m_Texture: {fileID: 2800000, guid: c27afd31e36a48e4382ee6f335eaf888, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DetailMask:
@@ -45,7 +45,7 @@ Material:
         m_Scale: {x: 1, y: 60}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: c27afd31e36a48e4382ee6f335eaf888, type: 3}
+        m_Texture: {fileID: 2800000, guid: c9b1214552c344e48961feb0eb342607, type: 3}
         m_Scale: {x: 1, y: 4.5}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -65,19 +65,19 @@ Material:
     - _BumpScale: 2
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
-    - _DstBlend: 0
-    - _GlossMapScale: 1
+    - _DstBlend: 10
+    - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
     - _Metallic: 0
-    - _Mode: 0
+    - _Mode: 3
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _SmoothnessTextureChannel: 1
     - _SpecularHighlights: 0
     - _SrcBlend: 1
     - _UVSec: 0
-    - _ZWrite: 1
+    - _ZWrite: 0
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0.15641363, g: 0.15641363, b: 0.15641363, a: 1}

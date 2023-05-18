@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -15,6 +16,9 @@ namespace PathCreation.Examples {
         public GameObject maskedPrefab;
         public GameObject objectHolder;
         public GameObject maskedObjectHolder;
+
+        public GameObject[] randomObjects;
+        public GameObject randomObjHolder;
         
         public int holderIndex;
 
@@ -42,7 +46,7 @@ namespace PathCreation.Examples {
                 DestroyObjects();
             }
 
-            if (pathCreator != null && prefab != null && objectHolder != null && spawnObjects) {
+            if (pathCreator != null && prefab != null && objectHolder != null && randomObjHolder != null && spawnObjects) {
                 DestroyObjects();
                 
                 VertexPath path = pathCreator.path;
@@ -52,13 +56,16 @@ namespace PathCreation.Examples {
 
                 while (dst < path.length) {
                     Vector3 point = path.GetPointAtDistance(dst);
-
                     point.x += Random.Range(-xOffset, xOffset) * seed;
                     point.z += Random.Range(-zOffset, zOffset) * seed;
                     point.y += 0.8f;
+
+                    Vector3 randomPoint = point;
+                    randomPoint.y += Random.Range(0.5f, 2);
+                    randomPoint.x += Random.Range(2f, 7f);
+                    randomPoint.z += Random.Range(2f, 7f);
                     
                     Quaternion rot = path.GetRotationAtDistance(dst);
-                    
                     rot.x += Random.Range(-xRotOffset, xRotOffset);
                     rot.y += Random.Range(-yRotOffset, yRotOffset);
                     rot.z += Random.Range(-zRotOffset, zRotOffset);
@@ -66,6 +73,12 @@ namespace PathCreation.Examples {
                     GameObject normal = Instantiate(prefab, point, rot, objectHolder.transform);
                     GameObject masked = Instantiate(maskedPrefab, point, rot, maskedObjectHolder.transform);
 
+                    if (Random.Range(1, 100) <= 100)
+                    {
+                        GameObject random = Instantiate(randomObjects[Random.Range(0, randomObjects.Length)], randomPoint,
+                            rot, randomObjHolder.transform);
+                    }
+                    
                     MeshRenderer noShadows = masked.AddComponent<MeshRenderer>();
                     noShadows.receiveShadows = false;
                     
@@ -82,6 +95,12 @@ namespace PathCreation.Examples {
             for (int i = numChildren - 1; i >= 0; i--) {
                 DestroyImmediate(objectHolder.transform.GetChild(i).gameObject, false);
                 DestroyImmediate(maskedObjectHolder.transform.GetChild(i).gameObject, false);
+            }
+
+            int numRandmObj = randomObjHolder.transform.childCount;
+            for (int i = numRandmObj - 1; i >= 0; i--)
+            {
+                DestroyImmediate(randomObjHolder.transform.GetChild(i).gameObject, false);
             }
         }
 
@@ -101,6 +120,11 @@ namespace PathCreation.Examples {
             {
                 maskedObjectHolder = new GameObject("(" + holderIndex + ") Masked Object Holder");
                 maskedObjectHolder.transform.parent = transform.parent;
+            }
+
+            if (randomObjHolder == null)
+            {
+                randomObjHolder = new GameObject("(" + holderIndex + ") Random Object Holder");
             }
         }
         
